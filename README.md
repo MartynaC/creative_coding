@@ -6,7 +6,7 @@ PROWADZĄCA
 
 https://martynachojnacka.com/
 
-PRZYKŁADOWE PROJEKTY PROWADZĄCEJ
+PRZYKŁADOWE PROJEKTY MARTYNY
 
 https://www.mother.dance/
 https://www.youtube.com/watch?v=jnHCaZcQ26U 
