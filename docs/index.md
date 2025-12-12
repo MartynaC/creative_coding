@@ -1,6 +1,16 @@
+---
+title: "Processing – Cheat Sheet"
+nav_order: 1
+---
 
 # 📝 PROCESSING - CHEAT SHEET
-## Ściąga podstawowych funkcji i składni
+{: .no_toc }
+
+## Spis treści
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
 
 ---
 
