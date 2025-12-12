@@ -1,9 +1,3 @@
-title: "Processing Docs"
-description: "Ściąga + dokumentacja Processing"
-theme: just-the-docs
-
-# ważne!
-baseurl: "" 
 
 # 📝 PROCESSING - CHEAT SHEET
 ## Ściąga podstawowych funkcji i składni
