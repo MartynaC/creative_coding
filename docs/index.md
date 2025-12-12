@@ -1,16 +1,24 @@
 ---
-title: "Processing – Cheat Sheet"
+title: "Processing – Podstawy"
 nav_order: 1
 ---
 
 # 📝 PROCESSING - CHEAT SHEET
 {: .no_toc }
 
+<div class="local-layout">
+
+<div class="local-toc">
+
 ## Spis treści
 {: .no_toc .text-delta }
 
 1. TOC
 {:toc}
+
+</div>
+
+<div class="local-content">
 
 ---
 
@@ -397,3 +405,6 @@ void keyPressed() {
 ```
 
 ---
+
+
+</div> <!-- .local-content --> </div> <!-- .local-layout --> ```

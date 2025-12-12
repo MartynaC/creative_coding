@@ -1,418 +1,621 @@
 ---
-title: "Touchdesigner – Cheat Sheet"
-nav_order: 2
+title: "Touchdesigner"
+nav_order: 3
 ---
 
-# 🎛️ TOUCHDESIGNER - QUICK START GUIDE
-## Visual Programming dla artystów
----
-
-## 📥 INSTALACJA
-
-**Strona:** https://derivative.ca/
-**Wersja:** TouchDesigner (darmowa, non-commercial)
-**System:** Windows lub Mac
-
-**Wymagania:**
-- Dobra karta graficzna (GPU)
-- 8GB RAM minimum
-- ~500MB miejsca
+# 🎨 TOUCHDESIGNER VISUAL CHEAT SHEET
+## Wizualna ściąga dla beginnerów
 
 ---
 
 ## 🎯 CO TO JEST TOUCHDESIGNER?
 
-**Node-based programming** - programowanie przez łączenie pudełek!
+**Visual Programming Environment**
+- Zamiast pisać kod → łączysz "operatory" (nodes)
+- Real-time → widzisz efekty od razu
+- Pipeline data → dane płyną między operatorami
 
-**Używane do:**
-- Instalacje interaktywne
-- VJ-ing (wizualizacje na koncertach)
+**Gdzie się używa?**
+- Instalacje artystyczne
+- VJ performance (live visuals)
 - Mapping projekcyjny
-- Real-time visual effects
-- Generatywna grafika
-- Audio-reactive art
-
-**Kto używa:**
-- Amon Tobin (koncerty)
-- teamLab (instalacje)
-- Marshmello (show)
-- Setki artystów VJ
+- Interactive experiences
+- Generative art
 
 ---
 
-## 🧩 TYPY OPERATORÓW (OPs)
+## 🌈 4 RODZINY OPERATORÓW
 
-TouchDesigner dzieli operatory na **4 rodziny** (kolory):
-
-### 🟦 TOP (Texture Operators) - 2D obrazy/video
 ```
-Movie File In    - wczytaj video
-Noise            - generuj szum
-Circle           - narysuj koło
-Blur             - rozmyj
-Over             - połącz dwa obrazy
-Composite        - blend
-Level            - jasność/kontrast
-Transform        - przesuń/obróć/skaluj
-Feedback         - pętla zwrotna
-```
-
-### 🟩 CHOP (Channel Operators) - liczby, audio, motion
-```
-Audio Device In  - mikrofon/line in
-LFO              - oscylator (sinus, saw, square)
-Math             - operacje matematyczne
-Noise            - Perlin noise
-Timer            - czas
-Lag              - wygładzanie
-CHOP to           - konwersja do innych typów
-```
-
-### 🟪 SOP (Surface Operators) - geometria 3D
-```
-Box              - sześcian
-Sphere           - kula
-Grid             - siatka
-Tube             - cylinder
-Transform        - przesuń/obróć obiekt 3D
-```
-
-### 🟨 DAT (Data Operators) - tekst, tabele, skrypty
-```
-Text             - tekst
-Table            - tabela danych
-Serial           - komunikacja Serial
-OSC In/Out       - komunikacja OSC
-Script           - Python/JavaScript
+┌─────────────────────────────────────────────────────────┐
+│                  TOUCHDESIGNER FAMILIES                  │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  🟦 TOP (Texture)        🟩 CHOP (Channel)             │
+│     Obrazy, Video           Liczby, Audio              │
+│     2D operacje             Wartości w czasie          │
+│     Efekty wizualne         Control data               │
+│                                                          │
+│  🟪 SOP (Surface)        🟨 DAT (Data)                 │
+│     Geometria 3D            Tekst, Tabele              │
+│     Meshes, Points          Python scripts             │
+│     Particles               JSON, CSV                   │
+│                                                          │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔗 PODSTAWOWE OPERACJE
+## 🟦 TOP - TEXTURE OPERATORS
 
-### Tworzenie noda:
-1. **Double-click** w pustym miejscu → wpisz nazwę
-2. Lub **TAB** → wpisz nazwę
-3. Lub **prawy przycisk** → Add Operator
+### Najpopularniejsze TOP:
 
-### Łączenie nodów:
-- Przeciągnij z **output** (prawa strona) do **input** (lewa strona)
-- Jeden output → wiele inputów = OK!
-- Wiele outputów → jeden input = tylko ostatnie połączenie działa
+```
+[Noise TOP]          Generuje szum Perlina
+[Movie File In TOP]  Wczytuje video z pliku
+[Text TOP]           Renderuje tekst
+[Circle TOP]         Rysuje koło
+[Rectangle TOP]      Rysuje prostokąt
+[Level TOP]          Brightness/Contrast/Gamma
+[Transform TOP]      Translate/Rotate/Scale
+[Composite TOP]      Łączy 2 obrazy
+[Blur TOP]           Rozmywa obraz
+[Over TOP]           Nakłada jeden obraz na drugi
+[Feedback TOP]       Feedback loop (efekty!)
+[Null TOP]           Output (czysty pass-through)
+```
+
+### Przykładowy pipeline:
+
+```
+[Noise TOP]
+    ↓
+[Level TOP]
+ (brightness)
+    ↓
+[Circle TOP]
+    ↓
+[Composite TOP] ← [Text TOP]
+    ↓
+[Blur TOP]
+    ↓
+[Null "OUT"]
+```
+
+### Animacja w TOP:
+
+**absTime.seconds** - czas od startu (sekundy)
+**absTime.frame** - numer klatki
+
+Przykład:
+```
+[Noise TOP]
+  Translate X: absTime.seconds * 0.1
+  Translate Y: sin(absTime.seconds) * 0.5
+  Period: 100 + absTime.seconds * 10
+```
+
+---
+
+## 🟩 CHOP - CHANNEL OPERATORS
+
+### Najpopularniejsze CHOP:
+
+```
+[Constant CHOP]      Stała wartość
+[Math CHOP]          Operacje matematyczne
+[Lag CHOP]           Wygładzanie
+[Noise CHOP]         Losowy szum
+[LFO CHOP]           Low Frequency Oscillator (fala)
+[Timer CHOP]         Licznik czasu
+[Audio Device In]    Dźwięk z mikrofonu
+[Audio Spectrum]     Analiza częstotliwości
+[CHOP to TOP]        Konwersja CHOP → TOP
+[Null CHOP]          Output
+```
+
+### Przykład - Audio Reactive:
+
+```
+[Audio Device In CHOP]
+    ↓
+[Audio Spectrum CHOP]
+    ↓
+[Math CHOP]
+ (Range: 0-1)
+    ↓
+[CHOP to TOP]
+    ↓
+[Multiply TOP] → [Noise TOP]
+```
+
+### Math CHOP operacje:
+
+```
+Add         a + b
+Subtract    a - b
+Multiply    a * b
+Divide      a / b
+Range       Przeskaluj zakres (np. 0-1023 → 0-1)
+```
+
+---
+
+## 🟪 SOP - SURFACE OPERATORS
+
+### Podstawowe SOP:
+
+```
+[Box SOP]            Sześcian
+[Sphere SOP]         Kula
+[Grid SOP]           Siatka
+[Line SOP]           Linia
+[Circle SOP]         Okrąg
+[Text SOP]           Tekst 3D
+[Transform SOP]      Translate/Rotate/Scale
+[Noise SOP]          Deformacja szumem
+[Copy SOP]           Kopiuje geometrię
+[Null SOP]           Output
+```
+
+### Przykład - Rotating Box:
+
+```
+[Box SOP]
+    ↓
+[Transform SOP]
+  Rotate Y: absTime.seconds * 60
+    ↓
+[Null "box_out"]
+```
+
+---
+
+## 🟨 DAT - DATA OPERATORS
+
+### Podstawowe DAT:
+
+```
+[Text DAT]           Tekst/kod
+[Table DAT]          Tabela
+[Serial DAT]         Komunikacja Serial (Arduino!)
+[Convert DAT]        Konwersja typów
+[Select DAT]         Wybiera dane
+[DAT to CHOP]        Konwersja DAT → CHOP
+[Script DAT]         Python kod
+[Null DAT]           Output
+```
+
+### Arduino → TouchDesigner:
+
+```
+[Serial DAT]
+  Port: /dev/cu.usbserial (Mac) lub COM3 (Windows)
+  Baud Rate: 9600
+    ↓
+[Convert DAT]
+  (tekst → liczba)
+    ↓
+[DAT to CHOP]
+    ↓
+[Math CHOP]
+  Range: 0-1023 → 0-1
+    ↓
+Użyj w TOP!
+```
+
+---
+
+## ⚡ PODSTAWOWE OPERACJE
+
+### Tworzenie operatora:
+
+1. Kliknij w pustym miejscu **TAB**
+2. Wpisz nazwę (np. "noise")
+3. **ENTER**
+
+### Łączenie operatorów:
+
+```
+┌─────────┐
+│ Noise   │ ← Wejście (input)
+│         │
+└────┬────┘
+     │ Połącz przeciągając
+     ↓
+┌────┴────┐
+│ Level   │
+└─────────┘
+```
 
 ### Podgląd:
-- **Kliknij** na nod = podgląd u dołu (viewer)
-- **Active viewer** (podświetlony) = główny podgląd
-- **Middle-click** = viewer pełnoekranowy
+
+- **Klik** na operator → viewer u dołu
+- **Middle-click** (scroll) → full-screen viewer
 
 ### Parametry:
-- Kliknij nod → panel parametrów po prawej
-- Możesz wpisać wartości
-- Możesz podłączyć CHOP do parametru!
+
+Kliknij operator → po prawej stronie parametry
+
+**Expression mode:**
+- **Constant** = stała wartość
+- **Expression** = formuła (np. absTime.seconds)
+- **Export** = połącz z CHOP
 
 ---
 
-## 🎨 PIERWSZY PROJEKT: Noise Animation
+## 🔗 REFERENCJE (CONNECTIONS)
 
-**Cel:** Animowany szum
+### Połącz CHOP z parametrem:
 
-**Kroki:**
-
-1. **Stwórz Noise TOP**
-   - Tab → wpisz "noise" → Enter
-   - Parametry (po prawej):
-     - Period: 100
-     - Amplitude: 1
-
-2. **Parametry czasowe**
-   - Kliknij na "Translate" → X
-   - Zamiast liczby wpisz: `absTime.seconds * 0.1`
-   - Szum będzie się poruszał!
-
-3. **Dodaj kolor**
-   - Tab → "level"
-   - Połącz: Noise → Level
-   - Parametry Level:
-     - Brightness: 0.5
-     - Gamma: 1.2
-
-4. **Null (output)**
-   - Tab → "null"
-   - Połącz: Level → Null
-   - Nazwij: "OUT"
-   - To Twój finalny output!
-
-**Gotowe!** Zobacz jak się rusza ✨
-
----
-
-## 🎧 DRUGI PROJEKT: Audio Reactive
-
-**Cel:** Wizualizacja reagująca na dźwięk
-
-**Kroki:**
-
-1. **Audio In**
-   ```
-   Tab → "audioddevicein"
-   Parametry:
-   - Device: wybierz mikrofon lub line in
-   - Number of Channels: 1 (mono)
-   ```
-
-2. **Audio Spectrum (CHOP)**
-   ```
-   Tab → "audiofilter"
-   Połącz: Audio Device In → Audio Filter
-   Parametry:
-   - Filter Type: Spectrum
-   ```
-
-3. **CHOP to TOP (konwersja)**
-   ```
-   Tab → "choptotop"
-   Połącz: Audio Filter → CHOP to TOP
-   To zamienia liczby z audio na obraz!
-   ```
-
-4. **Noise (wizualizacja)**
-   ```
-   Tab → "noise"
-   Kliknij na parametr "Amplitude"
-   Kliknij strzałkę "+" obok wartości
-   Wybierz: CHOP → choptotop1
-   
-   Teraz amplitude zależy od głośności! 🎶
-   ```
-
-5. **Circle (kształt)**
-   ```
-   Tab → "circle"
-   Połącz: Noise → Circle
-   Parametry Circle:
-   - Radius: połącz z CHOP to TOP (jak wyżej)
-   ```
-
-**Gotowe!** Mów do mikrofonu / włącz muzykę!
-
----
-
-## 🔌 TRZECI PROJEKT: Arduino → TouchDesigner
-
-**Cel:** Potencjometr steruje wizualizacją
-
-**Arduino kod:**
-```cpp
-void setup() {
-  Serial.begin(9600);
-}
-
-void loop() {
-  int val = analogRead(A0);
-  Serial.println(val);
-  delay(50);
-}
+**Metoda 1: Drag & Drop**
+```
+Przeciągnij CHOP → na parametr (np. Brightness)
 ```
 
-**TouchDesigner:**
-
-1. **Serial DAT**
-   ```
-   Tab → "serial"
-   Parametry:
-   - Port: wybierz Arduino (np. COM3, /dev/tty.usb...)
-   - Baud Rate: 9600
-   - Row/Callback Format: "One Per Line"
-   ```
-
-2. **Convert DAT**
-   ```
-   Tab → "convert"
-   Połącz: Serial → Convert
-   To zamienia tekst na liczby
-   ```
-
-3. **DAT to CHOP**
-   ```
-   Tab → "dattochop"
-   Połącz: Convert → DAT to CHOP
-   ```
-
-4. **Math CHOP (skalowanie)**
-   ```
-   Tab → "math"
-   Połącz: DAT to CHOP → Math
-   Parametry:
-   - Combine CHOPs: Add
-   - From Range: 0 to 1023
-   - To Range: 0 to 1
-   ```
-
-5. **Użyj w wizualizacji**
-   ```
-   Tab → "noise"
-   Parametr "Period" → połącz z Math CHOP
-   
-   Teraz kręcenie potencjometrem zmienia noise! 🎛️
-   ```
-
----
-
-## 📤 SYPHON/SPOUT - WYSYŁANIE VIDEO
-
-**Syphon** = Mac | **Spout** = Windows
-
-**Cel:** Wyślij obraz z TD do innych programów
-
-**TouchDesigner:**
+**Metoda 2: Export**
 ```
-[Twoja wizualizacja] → [Syphon/Spout Out TOP]
-
-Parametry Syphon/Spout Out:
-- Server Name: "TD_Output"
+1. Klik prawy na CHOP → Export
+2. Wybierz parametr (np. level1:brightness)
 ```
 
-**Processing (odbieranie):**
-```java
-import codeanticode.syphon.*;  // Mac
-// import spout.*;              // Windows
+### Przykład:
 
-SyphonClient client;
-PGraphics canvas;
-
-void setup() {
-  size(1280, 720, P2D);
-  client = new SyphonClient(this, "TD_Output");
-}
-
-void draw() {
-  if (client.available()) {
-    canvas = client.getGraphics(canvas);
-    image(canvas, 0, 0);
-  }
-}
 ```
-
-**Teraz masz:**
-```
-TouchDesigner (generuje) 
-    → Syphon/Spout (wysyła) 
-    → Processing (odbiera + przetwarza)
+[Noise CHOP]           [Noise TOP]
+  Frequency: 1    →    Period: noise1[0]
+  Amplitude: 1         
+     ↓
+  (steruje Period w Noise TOP)
 ```
 
 ---
 
-## 💡 PRZYDATNE WSKAZÓWKI
+## 📊 WZORY I WYRAŻENIA
 
-### Organizacja projektu:
-- Używaj **Null TOP** jako "checkpointy"
-- Nazywaj nody opisowo
-- Grupuj związane nody w **Container**
-- Komentarze: prawy przycisk → Annotate
+### absTime:
 
-### Performance:
-- **Resolution** - zmniejsz jeśli laguje
-- **Cook Type** - "Auto" vs "Always"
-- **Viewer Active** - wyłącz niepotrzebne
-- **Replicator** - klonuj zamiast kopiować
-
-### Skróty klawiszowe:
-- **Tab** - create operator
-- **Space** - network view vs viewer
-- **P** - parametry
-- **U** - connections up
-- **D** - connections down
-- **Ctrl+D** - duplicate
-- **Alt + przeciągnij** - panorama
-
-### Export:
-- **Movie File Out TOP** - zapisz video
-- **JPEG Out TOP** - zapisz obrazy
-- **Perform Mode** - pełny ekran (Alt+F)
-
----
-
-## 🎯 PRZYKŁADOWE PROJEKTY
-
-### 1. VJ Loop Generator
 ```
-[Noise TOP] → [Kaleidoscope TOP] → [Level TOP] → [Feedback TOP] → [Null "OUT"]
-                                           ↑
-                                    [LFO CHOP] (kontroluje brightness)
+absTime.seconds     Sekundy od startu
+absTime.frame       Numer klatki
 ```
 
-### 2. Webcam Effects
+### me (self-reference):
+
 ```
-[Video Device In TOP] → [Edge TOP] → [Composite TOP] ← [Original]
-                                           ↓
-                                       [Null "OUT"]
+me.time.seconds     Czas
+me.width            Szerokość operatora
+me.height           Wysokość operatora
 ```
 
-### 3. Audio Visualizer
+### Operatory matematyczne:
+
 ```
-[Audio Device In] → [Audio Spectrum] → [CHOP to TOP] → [Lookup TOP] → [Circle TOP]
-                                                              ↑
-                                                      [Ramp TOP] (color map)
++   Dodawanie
+-   Odejmowanie
+*   Mnożenie
+/   Dzielenie
+**  Potęga
 ```
 
-### 4. Particle System
+### Funkcje:
+
 ```
-[Noise TOP] → [Displace SOP] → [Instance SOP] → [Geo TOP] → [Null "OUT"]
-    ↑                               ↑
-[Timer CHOP]                 [Sphere SOP]
+sin(x)      Sinus
+cos(x)      Cosinus
+abs(x)      Wartość bezwzględna
+int(x)      Liczba całkowita
+```
+
+### Przykłady:
+
+```
+absTime.seconds * 50                    Liniowy wzrost
+sin(absTime.seconds) * 100              Fala sinusoidalna
+abs(sin(absTime.seconds * 2)) * 255     Pulsacja
+int(absTime.seconds) % 2                0,1,0,1... co sekundę
 ```
 
 ---
 
-## 📚 ZASOBY DO NAUKI
+## 🎨 PRZYKŁADOWE PROJEKTY
 
-**Oficjalne:**
-- https://derivative.ca/UserGuide/ - dokumentacja
-- https://learn.derivative.ca/ - tutorials
-- https://forum.derivative.ca/ - forum
+### 1. PODSTAWOWA ANIMACJA
 
-**YouTube:**
-- "The Interactive & Immersive HQ"
-- "elburz"
-- "PPPANIK"
-- "Bileam Tschepe"
+```
+[Noise TOP]
+  Translate X: absTime.seconds * 0.1
+  Period: 100
+    ↓
+[Level TOP]
+  Brightness: 1.2
+    ↓
+[Null "OUT"]
+```
 
-**Społeczność:**
-- Discord: TouchDesigner
-- Instagram: #touchdesigner
+### 2. AUDIO-REACTIVE
+
+```
+[Audio Device In CHOP]
+    ↓
+[Audio Spectrum CHOP]
+    ↓
+[CHOP to TOP]
+    ↓
+[Multiply TOP] ← [Noise TOP]
+                   (Period: 50)
+    ↓
+[Blur TOP]
+  Filter Width: 10
+    ↓
+[Null "OUT"]
+```
+
+### 3. ARDUINO CONTROL
+
+```
+ARDUINO:
+Serial.println(analogRead(A0));
+
+TOUCHDESIGNER:
+[Serial DAT]
+  Port: COM3
+  Baud: 9600
+    ↓
+[Convert DAT]
+    ↓
+[DAT to CHOP]
+    ↓
+[Math CHOP]
+  From Range: 0-1023
+  To Range: 0-1
+    ↓
+Export → [Noise TOP]:Period
+```
+
+### 4. FEEDBACK LOOP
+
+```
+[Noise TOP]
+    ↓
+[Transform TOP]
+  Rotate: 0.1
+    ↓
+[Feedback TOP] ← ┐
+    ↓            │
+[Composite TOP]  │
+  (Mix: 0.9)     │
+    └────────────┘
+    
+Efekt: Nawarstwione, obracające się wzory!
+```
+
+### 5. GENERATIVE CIRCLES
+
+```
+[Circle TOP]
+  Radius: abs(sin(absTime.seconds)) * 300
+    ↓
+[Transform TOP]
+  Rotate: absTime.seconds * 30
+    ↓
+[Composite TOP] ← [Circle TOP]
+                   Radius: 100
+    ↓
+[Level TOP]
+  Contrast: 1.5
+    ↓
+[Null "OUT"]
+```
+
+---
+
+## 🎛️ KLAWISZE I SHORTCUTS
+
+```
+TAB             Stwórz operator
+SPACE           Play/Pause timeline
+H               Home (fit all)
+F               Frame selected
+U               Network overview
+P               Toggle parameter window
+DELETE          Usuń operator
+CTRL+D          Duplikuj
+CTRL+C/V        Copy/Paste
+ALT+LeftClick   Pan (przesuwanie)
+Scroll          Zoom
+```
+
+---
+
+## 🌊 SYPHON/SPOUT
+
+### Wysyłanie (Output):
+
+```
+[Twoja wizualizacja]
+    ↓
+[Syphon Out TOP]  (Mac)
+[Spout Out TOP]   (Windows)
+  Server Name: "TD_Output"
+```
+
+### Odbieranie (Input):
+
+```
+[Syphon In TOP]   (Mac)
+[Spout In TOP]    (Windows)
+  Server: wybierz z listy
+    ↓
+[Twoje przetwarzanie]
+```
+
+---
+
+## 🔥 EFEKTY I TRIKI
+
+### 1. Kaleidoscope
+
+```
+[Noise TOP]
+    ↓
+[Kaleidoscope TOP]
+  Sides: 6
+```
+
+### 2. Glitch Effect
+
+```
+[Movie File In TOP]
+    ↓
+[Displace TOP]
+  Input: Noise TOP
+  Amount: 50
+    ↓
+[Edge TOP]
+```
+
+### 3. Color Ramp
+
+```
+[Noise TOP]
+    ↓
+[Ramp TOP]
+  (Custom colors)
+```
+
+### 4. Trails Effect
+
+```
+[Circle TOP]
+    ↓
+[Feedback TOP]
+    ↓
+[Composite TOP]
+  Operation: Add
+  Mix: 0.95
+```
+
+---
+
+## 📐 RESOLUTION & PERFORMANCE
+
+### Rozmiar obrazu:
+
+```
+[Noise TOP]
+  Resolution: 1920x1080
+  Pixel Format: 8-bit fixed (RGBA)
+```
+
+### Optymalizacja:
+
+- Używaj niższej rozdzielczości (512x512) podczas testów
+- **Alt+D** → Display performance
+- Wyłącz niepotrzebne viewery
+- Używaj **Null** jako output points
+
+---
+
+## 🐛 TROUBLESHOOTING
+
+### Problem: Nie widzę obrazu
+- ✅ Sprawdź czy operator jest "cooked" (zielony pasek)
+- ✅ Kliknij operator → zobacz viewer
+- ✅ Sprawdź Resolution (może być 0x0)
+
+### Problem: Lag/wolno działa
+- ✅ Zmniejsz Resolution
+- ✅ Wyłącz viewery (klik prawy → Viewer Active)
+- ✅ Alt+D → sprawdź GPU usage
+
+### Problem: Serial nie działa
+- ✅ Sprawdź port (Tools → Port)
+- ✅ Zamknij Serial Monitor w Arduino
+- ✅ Sprawdź Baud Rate (9600 w obu)
+
+### Problem: Parametr nie zmienia się
+- ✅ Sprawdź czy export działa (zielona strzałka)
+- ✅ Sprawdź Range w Math CHOP
+- ✅ Klik prawy na parametr → Clear Expression
+
+---
+
+## 🎯 WORKFLOW TIPS
+
+### 1. Organizacja
+```
+Używaj Null jako output points:
+[Complex Network] → [Null "out_final"]
+
+Nazywaj operatory:
+noise_main, audio_input, color_final
+```
+
+### 2. Containers
+```
+Grupuj związane operatory w Container:
+Klik prawy → Create Container
+```
+
+### 3. Save często!
+```
+File → Save As
+Wersjonuj: project_v1.toe, project_v2.toe
+```
+
+### 4. Comment
+```
+Kliknij prawy → Add Annotation
+Opisz co robi dany fragment
+```
+
+---
+
+## 📚 ZASOBY
+
+**Oficjalna dokumentacja:**
+- https://docs.derivative.ca/
+
+**Tutorials:**
+- Derivative YouTube Channel
+- Matthew Ragan tutorials
+- Interactive & Immersive HQ
+
+**Community:**
+- TouchDesigner Forum
 - Reddit: r/TouchDesigner
+- Discord: TouchDesigner Community
 
----
-
-## 🐛 NAJCZĘSTSZE PROBLEMY
-
-**"No Image"**
-- Sprawdź czy nod jest "cooked" (zielony pasek)
-- Sprawdź resolution (może być 0x0)
-
-**Lag / Niska wydajność**
-- Zmniejsz resolution
-- Wyłącz niepotrzebne viewers
-- Sprawdź GPU usage (Alt+D)
-
-**"Can't connect nodes"**
-- Sprawdź typy (TOP → TOP, CHOP → CHOP)
-- Konwersja: CHOP to TOP, DAT to CHOP, etc.
-
-**Serial nie działa**
-- Sprawdź port (może być zajęty)
-- Sprawdź baud rate
-- Zamknij Serial Monitor w Arduino IDE!
+**Inspiracje:**
+- https://www.derivative.ca/community-post
+- Instagram: #touchdesigner
 
 ---
 
 ## 🚀 NASTĘPNE KROKI
 
-Po opanowaniu podstaw:
-1. **Python scripting** - automatyzacja
-2. **GLSL shaders** - custom effects
-3. **3D** - geometria i render
-4. **Instancing** - particle systems
-5. **Projection mapping** - wieloprojekcyjne instalacje
+1. **Podstawy** (jesteś tu!)
+   - 4 rodzaje operatorów
+   - Podstawowe połączenia
+   - Proste animacje
 
-**Baw się i eksperymentuj!** ✨
+2. **Intermediate**
+   - GLSL Shaders
+   - 3D Rendering
+   - Instancing
+
+3. **Advanced**
+   - Python scripting
+   - Custom components
+   - Real-time performance
+
+---
+
+**PAMIĘTAJ:**
+- Eksperymentuj! TD jest visual - widzisz efekty od razu
+- Zapisuj wersje projektu
+- Używaj Null jako checkpointów
+- Community jest bardzo pomocne!
+
+**Baw się dobrze!** ✨🎨

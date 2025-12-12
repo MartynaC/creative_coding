@@ -1,0 +1,58 @@
+/* Układ dwóch kolumn wewnątrz głównej treści */
+.local-layout {
+  display: flex;
+  gap: 2rem;
+}
+
+/* Pseudo-sidebar z TOC */
+.local-toc {
+  flex: 0 0 220px;
+  max-height: calc(100vh - 4rem);
+  position: sticky;
+  top: 3.5rem; /* żeby nie wchodziło pod górny header */
+  font-size: 0.9rem;
+  padding-right: 0.5rem;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  overflow-y: auto;
+}
+
+/* Lista TOC wygląda jak menu */
+.local-toc ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.local-toc li {
+  margin: 0.15rem 0;
+}
+
+.local-toc a {
+  text-decoration: none;
+}
+
+.local-toc a:hover {
+  text-decoration: underline;
+}
+
+/* Główna kolumna z treścią */
+.local-content {
+  flex: 1 1 auto;
+  min-width: 0; /* ważne dla zawijania kodu */
+}
+
+/* Na małych ekranach pseudo-sidebar idzie nad treść */
+@media (max-width: 900px) {
+  .local-layout {
+    flex-direction: column;
+  }
+
+  .local-toc {
+    position: static;
+    max-height: none;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+}
