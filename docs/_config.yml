@@ -1,8 +1,8 @@
-title: "Processing Docs"
-description: "Ściąga + dokumentacja Processing"
+title: "Cheatsheet docs"
+description: "Dokumentacje dla Studentów Creative Coding"
 
 # Just the Docs jako zdalny motyw (działa dobrze z GitHub Pages)
-remote_theme: just-the-docs/just-the-docs
+remote_theme: pmarsceill/just-the-docs
 
 nav_enabled: true
 search_enabled: true
