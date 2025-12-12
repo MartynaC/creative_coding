@@ -4,6 +4,22 @@ nav_order: 3
 ---
 
 # 🎨 TOUCHDESIGNER VISUAL CHEAT SHEET
+{: .no_toc }
+
+<div class="local-layout">
+
+<div class="local-toc" markdown="1">
+
+## Spis treści
+{: .no_toc .text-delta }
+
+1. TOC
+{:toc}
+
+</div>
+
+<div class="local-content" markdown="1">
+
 ## Wizualna ściąga dla beginnerów
 
 ---
@@ -618,4 +634,6 @@ Opisz co robi dany fragment
 - Używaj Null jako checkpointów
 - Community jest bardzo pomocne!
 
-**Baw się dobrze!** ✨🎨
+</div> <!-- .local-content -->
+
+</div> <!-- .local-layout -->
