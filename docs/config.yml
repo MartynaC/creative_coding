@@ -4,7 +4,9 @@ description: "Ściąga + dokumentacja Processing"
 # Just the Docs jako zdalny motyw (działa dobrze z GitHub Pages)
 remote_theme: just-the-docs/just-the-docs
 
+nav_enabled: true
 search_enabled: true
 
 # tutaj ustawiamy baseurl – patrz punkt 3 niżej
-baseurl: "/processing-cheatsheet"
+baseurl: "/creative_coding"
+
