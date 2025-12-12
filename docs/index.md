@@ -8,7 +8,7 @@ nav_order: 1
 
 <div class="local-layout">
 
-<div class="local-toc">
+<div class="local-toc" markdown="1">
 
 ## Spis treści
 {: .no_toc .text-delta }
@@ -18,7 +18,7 @@ nav_order: 1
 
 </div>
 
-<div class="local-content">
+<div class="local-content" markdown="1">
 
 ---
 
@@ -407,4 +407,4 @@ void keyPressed() {
 ---
 
 
-</div> <!-- .local-content --> </div> <!-- .local-layout --> ```
+</div> <!-- .local-content --> </div> <!-- .local-layout -->
