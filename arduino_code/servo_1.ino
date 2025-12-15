@@ -2,7 +2,7 @@
 Servo myServo;
 
 void setup() {
-  myServo.attach(9);
+  myServo.attach(6);
 }
 
 void loop() {
