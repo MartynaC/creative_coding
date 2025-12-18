@@ -147,9 +147,9 @@ random(10);              // Losowa liczba 0-10
 random(5, 10);           // Losowa liczba 5-10
 
 // MAPOWANIE (przeliczanie zakresów)
-map(wartość, start1, stop1, start2, stop2);
-// Przykład: map(512, 0, 1023, 0, width)
-// Zamienia 512 z zakresu 0-1023 na odpowiedną wartość w zakresie 0-width
+map(wartosc, minStare, maxStare, minNowe, maxNowe)
+// Przykład: map(wartosc, 0, 1023, 0, width)
+// Zamienia wartosc z zakresu 0-1023 na odpowiedną wartość w zakresie 0-width
 
 // OGRANICZANIE (constrain)
 constrain(wartość, min, max);
@@ -342,7 +342,7 @@ redraw();                  // Narysuj jedną klatkę (gdy noLoop)
 ---
 
 
-## 🎯 PRZYKŁAD - WSZYSTKO RAZEM
+## 🎯 INTERAKCJA - POZYCJA KÓŁKA 
 
 ```java
 // Zmienne globalne
