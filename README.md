@@ -1,6 +1,9 @@
 # creative_coding
 Zajęcia cerative coding - link, snippety, kod
 
+ZAJĘCIA No 2:
+CHEETSHEAT:
+https://martynac.github.io/creative_coding/
 
 PROWADZĄCA
 
