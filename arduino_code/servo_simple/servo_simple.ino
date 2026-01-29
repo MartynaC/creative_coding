@@ -8,9 +8,7 @@ void setup() {
 
 void loop() {
 
-  pen.write(random(30, 150));   // ruch w lewo
-  delay(300);
+  pen.write(90);  // ustaw kąt 
+  delay(1000);
 
-  pen.write(120);  // ruch w prawo
-  delay(300);
 }
